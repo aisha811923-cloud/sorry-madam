@@ -27,6 +27,7 @@ const steps: Step[] = [
 const SorryCard = () => {
   const [currentStep, setCurrentStep] = useState(0);
   const [showForgive, setShowForgive] = useState(false);
+  const [showLetter, setShowLetter] = useState(false);
   const [forgiven, setForgiven] = useState(false);
   const [noPos, setNoPos] = useState({ x: 0, y: 0 });
   const [yesScale, setYesScale] = useState(1);
@@ -47,13 +48,13 @@ const SorryCard = () => {
   }, []);
 
   const handleYes = () => {
-    setForgiven(true);
+    setShowLetter(true);
   };
 
   return (
     <div className="px-4 py-6 w-full flex justify-center">
       <AnimatePresence mode="wait">
-        {!forgiven ? (
+        {!showLetter && !forgiven ? (
           <motion.div
             key={showForgive ? "forgive" : `step-${currentStep}`}
             initial={{ opacity: 0, y: 20 }}
@@ -164,6 +165,46 @@ const SorryCard = () => {
               </>
             )}
           </motion.div>
+        ) : showLetter && !forgiven ? (
+          <motion.div
+            key="letter"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.4, ease: "easeOut" }}
+            className="bg-sorry-card p-7 rounded-[60px] card-shadow min-w-48 w-full max-w-[400px] relative flex flex-col items-center gap-4"
+          >
+            <div className="relative h-44 md:h-52 bg-gradient-to-b from-white/80 to-rose-200 w-full rounded-[40px] flex items-end justify-center gif-box-shadow overflow-hidden">
+              <Heart className="absolute top-[18%] left-[26%] w-9 h-9 -rotate-[16deg] text-red-300 fill-red-300 opacity-50" aria-hidden="true" />
+              <Heart className="absolute top-[18%] right-[26%] w-9 h-9 rotate-[16deg] text-red-300 fill-red-300 opacity-50" aria-hidden="true" />
+              <img loading="lazy" src="/gifs/flower.gif" alt="flower" className="absolute w-28 -left-8 bottom-2 opacity-60" />
+              <img loading="lazy" src="/gifs/flower.gif" alt="flower" className="absolute w-28 right-12 bottom-2 opacity-60" />
+              <img loading="lazy" src="/gifs/second.gif" className="h-28 md:h-32 drop-shadow-xl relative z-10" alt="cute character" />
+            </div>
+
+            <div className="flex flex-col items-center gap-2">
+              <h2 className="text-3xl md:text-4xl text-sorry-btn-foreground font-dancing font-semibold">
+                My Apology Letter
+              </h2>
+              <div className="text-center text-foreground text-sm md:text-base leading-relaxed max-h-36 md:max-h-44 overflow-y-auto px-2">
+                <p className="mb-2">Dear Cutiepie,</p>
+                <p className="mb-2">
+                  I know words alone can't undo what happened, but I want you to know how truly sorry I am. You deserve so much better, and I regret every moment that I made you feel less than the amazing person you are.
+                </p>
+                <p className="mb-2">
+                  You are the most important person in my life, and I never want to lose you. I promise to do better, to listen more, and to always put your feelings first.
+                </p>
+                <p>With all my love, forever and always 💕</p>
+              </div>
+            </div>
+
+            <button
+              onClick={() => setForgiven(true)}
+              className="bg-sorry-btn md:text-lg text-sorry-btn-foreground font-semibold px-8 py-3 btn-shadow rounded-full hover:scale-105 active:scale-95 transition-all duration-200 flex items-center gap-2"
+            >
+              I love you too <Heart className="w-[18px] h-[18px] fill-sorry-btn-foreground" />
+            </button>
+          </motion.div>
         ) : (
           <motion.div
             key="forgiven"
@@ -208,6 +249,7 @@ const SorryCard = () => {
               onClick={() => {
                 setCurrentStep(0);
                 setShowForgive(false);
+                setShowLetter(false);
                 setForgiven(false);
                 setNoPos({ x: 0, y: 0 });
                 setYesScale(1);
