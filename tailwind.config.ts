@@ -47,6 +47,12 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        sorry: {
+          bg: "hsl(var(--sorry-bg))",
+          card: "hsl(var(--sorry-card))",
+          btn: "hsl(var(--sorry-btn))",
+          "btn-foreground": "hsl(var(--sorry-btn-foreground))",
+        },
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
           foreground: "hsl(var(--sidebar-foreground))",
